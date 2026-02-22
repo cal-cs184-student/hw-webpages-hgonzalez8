@@ -32,11 +32,11 @@
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage:  <a href="https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/">https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/</a>
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository:  <a href="https://github.com/cal-cs184-student/hw-webpages-hgonzalez8">https://github.com/cal-cs184-student/hw-webpages-hgonzalez8</a>
 
 		<figure>
 			<img src="lion.jpg" alt="Lion" style="width:50%"/>
@@ -48,40 +48,66 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, I implemented the razterization of triangles, both with and without supersampling, along with some transformations.
+		I thought this project was something new and interesting that I got to work on. I learned how to implement supersampling and was able to see the visual changes that occur and how it changes the way the pixels are shown. 
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Rasterizing triangles involves converting a shape into some pixels on the screen. There are multiple steps involved in the process. 
+		The steps I used started with creating a bounding box by getting the minimum and maximum of both the x and y coordinates to create a subsection of pixels to test instead of the entire frame buffer. This will make it more faster to process. By using the floor of the minimums and the ceiling of the maximums makes sure that no part of the triangle is cut off. I had to loop through the bounding box and sample the middle of the pixel. I had to check if the pixel was in the triangle based on the point in triangle test and fill it if it was.
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<p>The following are the pictures of the tests that were generated from rasterizing triangles. </p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-20_3-52-57.png" width="400px"/>
+				  <figcaption>Test 3</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-20_2-39-18.png" width="400px"/>
+				  <figcaption>Test 4</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-20_3-55-16.png" width="400px"/>
+				  <figcaption>Test 5</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-20_3-57-42.png" width="400px"/>
+				  <figcaption>Test 6</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 		
 		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Using the same method of finding the bounding box as task 1, I use the minimums and maximums of x and y. Since I was using supersampling, I had to use sub-pixels by finding the dimensions of the sib-pixel grid. There are sqrt(sample_rate) * sqrt(sample_rate) grid locations in the pixel so I used sqrt(sample_rate) as the dimension. In addition to looping through the bounding box, I had to also go through the sub-pixels. The middle of each subpixel can be found by using the index of the subpixel, the dimensions, and 0.5 to get the middle of the pixel. The point in triangle test was used and this time instead of using the fill pixel function, I used the sample buffer so that each subpixel color would be able to be averaged out to get combined into a color for the main pixel.
 
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-21_19-17-6.png" width="400px"/>
+				  <figcaption>Test with sample rate = 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-21_19-17-13.png" width="400px"/>
+				  <figcaption>Test with sample rate = 4</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-21_19-17-18.png" width="400px"/>
+				  <figcaption>Test with sample rate = 9</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="../homework/hw1-rasterizer-one/xcode/screenshot_2-21_19-17-23.png" width="400px"/>
+				  <figcaption>Test with sample rate = 16</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		<h2>Task 3: Transforms</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
