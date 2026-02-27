@@ -53,7 +53,8 @@
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		De Casteljau's Algorithm uses the divide and conquer method to evaluate Bezier curves. It uses subdivision to separate the curve into multiple sections using the control points as the starting point. Linear interpolation is used on each pair of control points to compute an intermediate control point on the line connecting the two original control points. The steps I used to implement de Casteljau's algorithm are as follows.
+		De Casteljau's Algorithm uses the divide and conquer method to evaluate Bezier curves. It uses subdivision to separate the curve into multiple sections using the control points as the starting point. 
+		Linear interpolation is used on each pair of control points to compute an intermediate control point on the line connecting the two original control points. The steps I used to implement de Casteljau's algorithm are as follows.
 		For each level/step in the algorithm we: 
 		1. Check the size of the vector: Since linear interpolation requires two points, we need to double check that the vector we have has two or more points to be able to compute the intermediate point.
 		2. Create a new vector object to store the new points: If there are enough points to work with, we will be able to do the calculations, so we need to have a place to store the new values.
@@ -112,7 +113,20 @@
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The method that is used to evaluate Bezier surfaces are to use two stages of De Casteljau's algorithm (applying it twice) in a row. The algorithm allows us to evaluate a point on a Bezier surface patch by using two different directions that have different parameters (u,v). This reduces the surface which is 2D into a sequence of curve evaluations which are 1D. 
+		Since the surface control points are in an n x n grid, there are two directions that the de Castelijau's algorithm for curves is applied to. I had to call the algorithm with two different parameters: 
+		u -- for each row vector: The algorithm is called for each row vector, so it gets compressed into a point
+		v -- for each column vector: The algorithm is called for each column vector as well, so the size of the columns need to be checked
+		I used the following steps to implement the algorithm for a surface:
+		1. Check the size of the vector of vectors: Just like before, since we are still using linear interpolation, we need more than one column to be able to do the computation in the second stage.
+		2. Create a new vector: This vector with contain the new points that will be evaluated for each row
+		3. Call the evaluation function on each row using u as the parameter: Each row is treated as control points for a curve, so we compute a point for each row
+		4. Call the evaluation function on the column using v as the parameter: Since each row is a vector, once they are all evaluated, we are left with one column that forms a vector. We then evaluate that vector using the points that were derived before as our control points.
+
+		<figure>
+			<img src="hw2_part2.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Teapot</figcaption>
+		</figure>
 
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
