@@ -53,13 +53,13 @@
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		De Casteljau's Algorithm uses the divde and conquer method to evaluate Bezier curves. It uses subdivison to separate the curve into multiple sections using the control points as the starting point. Linear interpolation is used on each pair of control points to compute an intermediate control point on the line connecting the two original control points. The steps I used to implement de Casteljau's algorithm are as follows.
+		De Casteljau's Algorithm uses the divide and conquer method to evaluate Bezier curves. It uses subdivision to separate the curve into multiple sections using the control points as the starting point. Linear interpolation is used on each pair of control points to compute an intermediate control point on the line connecting the two original control points. The steps I used to implement de Casteljau's algorithm are as follows.
 		For each level/step in the algorithm we: 
 		1. Check the size of the vector: Since linear interpolation requires two points, we need to double check that the vector we have has two or more points to be able to compute the intermediate point.
 		2. Create a new vector object to store the new points: If there are enough points to work with, we will be able to do the calculations, so we need to have a place to store the new values.
-		3. Go through the elements in the vector: Since each computation requires point i and point i+1, we only loop through the vector starting from 0 until the second to last vector (vector size - 1).
-			3a. Use the equation for linear interpolation: \( lerp = point<sub><i/sub> * (1-t) + point<sub>i+1</sub> * t \)
-			3b. Store the new point in to the vector we created: As we calculate these values, we want to store them in the same object to keep them together
+		3. Go through the elements in the vector: Since each computation requires point i and point i+1, we only loop through the vector starting from 0 until the second to last vector.
+			3a. Use the equation for linear interpolation: \( lerp = point<sub>i</sub> * (1-t) + point<sub>i+1</sub> * t \)
+			3b. Store the new point into the vector we created: As we calculate these values, we want to store them in the same object to keep them together
 		4. Return the vector with intermediate control points: Once we have finished the linear interpolation for all pairs of points in the vector, we return the vector that has all the intermediate control points that will be used in the next level/step.
 		These steps are done recursively until there is only one point left, which is the point on the curve.
 
