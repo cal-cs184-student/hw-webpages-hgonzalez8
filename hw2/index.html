@@ -243,6 +243,11 @@
 			  </tr>
 			</table>
 		</div>
+
+		Based on the debugging difficulties I encountered in Part 4, I approached the edge split implementation differently. Instead of trying to reason about connectivity implicitly, I explicitly listed all mesh elements involved in the operation, including the six original halfedges, associated vertices, edges, and faces. 
+		This made it easier to track how the mesh should be restructured when the edge is split.
+		Since edge splitting introduces several new mesh elements (a new vertex, multiple edges, halfedges, and faces), clearly identifying each element beforehand helped ensure that the assignments were consistent and easier to verify. This approach significantly reduced the difficulty of debugging and made it easier to confirm that all connectivity relationships were correctly updated.
+
 		<!--<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
