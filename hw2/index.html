@@ -149,7 +149,7 @@
 		The weighted normal is derived using the face normal and the face area. Each face has a normal element, however it is the normalized version which is a unit vector. 
 		(To get the unnormalized vector we need to get the cross product of two vectors which we can form using the positions of three vertices of the face: the vertex we are given, and two of its neighboring vertices.) 
 		Once we have the face normal we need the area of the face which for a triangle surface is half of the magnitude of the cross product of the two edge vectors. 
-		When we bring the formula together we get: face_normal * face_area = \( [ u &times; v / ||u &times; v|| ] * [ ||u &times; v|| / 2 ] = ( u &times; v ) / 2 \)
+		When we bring the formula together we get: face_normal * face_area = \( [ u &times; v &divide; ||u &times; v|| ] * [ ||u &times; v|| &divide; 2 ] = ( u &times; v ) &divide; 2 \)
 		I used this formula to compute the vector for each face.
 
 		The steps I used are as follows:
@@ -182,7 +182,7 @@
 		This involved assigning the correct twin, next, edge, vertex, and face pointers. so that each of the four resulting triangles had a consistent halfedge cycle. I also updated the halfedge pointers for the affected vertices, edges, and faces so that they reference valid halfedges in the modified mesh.
 		Finally, the new vertex's halfedge pointer was set to point along the original split edge, as required.
 
-		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
+		<!--<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
@@ -198,6 +198,7 @@
 				</ul>
 			</li>
 		</ul>
+	-->
 		</div>
 	</body>
 </html>
