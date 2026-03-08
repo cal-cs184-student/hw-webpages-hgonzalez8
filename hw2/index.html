@@ -118,11 +118,12 @@
 		u -- for each row vector: The algorithm is called for each row vector, so it gets compressed into a point
 		v -- for each column vector: The algorithm is called for each column vector as well, so the size of the columns need to be checked
 		I used the following steps to implement the algorithm for a surface:
-		1. Check the size of the vector of vectors: Just like before, since we are still using linear interpolation, we need more than one column to be able to do the computation in the second stage.
-		2. Create a new vector: This vector with contain the new points that will be evaluated for each row
-		3. Call the evaluation function on each row using u as the parameter: Each row is treated as control points for a curve, so we compute a point for each row
-		4. Call the evaluation function on the column using v as the parameter: Since each row is a vector, once they are all evaluated, we are left with one column that forms a vector. We then evaluate that vector using the points that were derived before as our control points.
-
+		<ol>
+			<li>Check the size of the vector of vectors: Just like before, since we are still using linear interpolation, we need more than one column to be able to do the computation in the second stage.</li>
+			<li>Create a new vector: This vector with contain the new points that will be evaluated for each row</li>
+			<li>Call the evaluation function on each row using u as the parameter: Each row is treated as control points for a curve, so we compute a point for each row</li>
+			<li>Call the evaluation function on the column using v as the parameter: Since each row is a vector, once they are all evaluated, we are left with one column that forms a vector. We then evaluate that vector using the points that were derived before as our control points.</li>
+		</ol>
 		<figure>
 			<img src="hw2_part2.png" alt="Teapot" style="width:90%"/>
 			<figcaption>Teapot</figcaption>
@@ -131,8 +132,28 @@
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To implement area-weighted vertex normals, I utilized the method of edge traversal for a vertex and used the halfedges for computations. I had to figure out how to translate the math into the components that we have in the mesh. 
 
+		The weighted normal is derived using the face normal and the face area. Each face has a normal element, however it is the normalized version which is a unit vector. 
+		(To get the unnormalized vector we need to get the cross product of two vectors which we can form using the positions of three vertices of the face: the vertex we are given, and two of its neighboring vertices.) 
+		Once we have the face normal we need the area of the face which for a triangle surface is half of the magnitude of the cross product of the two edge vectors. 
+		When we bring the formula together we get: face_normal * face_area = \( [ u x v / ||u x v|| ] * [ ||u x v|| / 2 ] = ( u x v ) / 2 \)
+		I used this formula 
+
+		The steps I used are as follows:
+		<ol>
+			<li>iterate through the faces incident to the vertex we have</li>
+			<li>for each face, multiply the normal vector (not normalized vector) by its surface area to get the weighted normal: using the formula above</li>
+			<li>sum all the area weighted normals of the faces</li>
+				<ul>
+					<li>Do 2 and 3 until we get back to the original halfedge that we started with</li>
+				</ul>
+			<li>Normalize the sum vector-- this gives us our final vector</li>
+				<ul>
+					<li>I also checked the sum vector to make sure it was not left at zero just in case because we need to normalize the sum vector.</li>
+				</ul>
+		</ol>
+		
 		<h3>Part 4: Edge flip</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
