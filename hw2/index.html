@@ -48,17 +48,16 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 		
 		In this homework, I implemented algorithms for evaluating Bézier curves and surfaces, as well as several local mesh operations using the halfedge mesh data structure. These components together demonstrate how smooth parametric surfaces and discrete triangle meshes are represented and manipulated in computer graphics.
-
+		<p></p>
 		In the first section, I implemented de Casteljau's algorithm to evaluate Bézier curves. I wrote a function that performs a single interpolation step between adjacent control points using a parameter t. 
 		Repeatedly applying this step reduces the list of control points until a single point remains, which lies on the Bézier curve. I then extended this idea to Bézier surfaces by implementing the same interpolation for Vector3D points. 
 		Using this, I implemented a function to fully evaluate a 1D Bézier curve and used it to compute points on a Bézier patch by first evaluating along one parameter (u) for each row of control points and then evaluating the resulting points along the second parameter (v).
-
+		<p></p>
 		In the second section, I worked with the halfedge mesh representation to implement common mesh operations. I first computed area-weighted vertex normals by iterating around the one-ring neighborhood of a vertex and summing the cross products of adjacent triangle edges to approximate a smooth normal. 
 		I then implemented edge flipping, which replaces an edge shared by two adjacent triangles while maintaining mesh connectivity. Finally, I implemented edge splitting, which inserts a new vertex at the midpoint of an edge and reconstructs the surrounding triangles by creating new edges, faces, and halfedges while updating all connectivity pointers.
-
+		<p></p>
 		One of the most interesting things I learned from this homework is how powerful recursive interpolation can be. De Casteljau's algorithm shows that Bézier curves can be constructed purely from repeated linear interpolation. 
 		Another key takeaway was how local mesh operations depend heavily on correct connectivity management. When implementing edge flips and splits, even a small mistake in updating pointers could easily break the mesh structure. This helped me better understand how the halfedge data structure encodes relationships between elements and why it is widely used in geometry processing.
 
@@ -76,7 +75,7 @@
 		4. Return the vector with intermediate control points: Once we have finished the linear interpolation for all pairs of points in the vector, we return the vector that has all the intermediate control points that will be used in the next level/step.
 		These steps are done recursively until there is only one point left, which is the point on the curve.
 
-		<p>There are the images displaying each step.</p>
+		<p>There are the images displaying each step and some curves with different control points and different parameters.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
@@ -167,12 +166,16 @@
 		</ol>
 		
 		<h3>Part 4: Edge flip</h3>
+
 		To implement edge flipping, I first identified all mesh elements surrounding the edge to be flipped. Starting from the halfedge associated with the input edge, I retrieved its twin and the four neighboring halfedges that form the two adjacent triangles. These halfedges define the two faces that share the edge and the four vertices involved in the operation.
 		Before performing the flip, I checked whether either of the adjacent faces is a boundary face. If the edge lies on the boundary, the operation is not valid and the function returns without modifying the mesh.
-		If both faces are interior, the edge is flipped.
+		If both faces are interior, it confirms that the edge should be flipped.
+		
+		<p>
 		I determined the four vertices a, b, c, d, where b and c are the endpoints of the original edge and a and d are the opposite vertices of the adjacent triangles. The flipped edge then connects a and d.
 		To update the mesh, I reassigned the connectivity of the six halfedges involved in the two triangles. This required updating each halfedge's next, twin, vertex, edge, and face pointers using setNeighbors. 
 		The halfedges around each face were reordered to reflect the new triangle configurations after the flip. I also updated the halfedge pointers for the affected vertices and faces to ensure they reference valid outgoing halfedges in the updated mesh.
+		</p>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -192,13 +195,16 @@
 			</table>
 		</div>
 
+		<p>
 		While implementing edge flip, I initially attempted to perform the operation without explicitly listing all surrounding halfedges, vertices, and edges, relying instead on following the connectivity structure conceptually from my notes. 
 		Although this approach worked logically on paper, it made debugging difficult because it was harder to trace which specific elements were being modified. To make the implementation easier to reason about, I switched to explicitly naming the six halfedges involved in the two adjacent triangles and the corresponding vertices and faces.
 		During debugging, I encountered an issue where one of the edges would disappear after performing a flip. I attempted to use check_for to inspect the connectivity relationships, but tracking the addresses of each element became tedious. 
 		Since the issue appeared to be related to edge connectivity, I instead reviewed the halfedge reassignment logic and eventually discovered that two halfedges had been mistakenly swapped during the updates (when using setNeighbors).
 		Correcting this mix-up fixed the disappearing edge and resulted in the correct mesh connectivity.
+		</p>
 
 		<h3>Part 5: Edge split</h3>
+
 		To implement edge splitting, I first collected all mesh elements associated with the edge to be split. Starting from the edge's halfedge, I retrieved the six halfedges that form the two adjacent triangles, along with their corresponding vertices, edges, and faces.
 		I computed the midpoint of the original edge by averaging the positions of its two endpoint vertices. A new vertex was created at this midpoint.
 		Next, I created the additional mesh elements required for the split operation: three new edges, six new halfedges, and two new faces. Splitting the edge divides the two original triangles into four smaller triangles, so the mesh connectivity must be updated accordingly.
@@ -244,10 +250,12 @@
 			</table>
 		</div>
 
+		<p>
 		Based on the debugging difficulties I encountered in Part 4, I approached the edge split implementation differently. Instead of trying to reason about connectivity implicitly, I explicitly listed all mesh elements involved in the operation, including the six original halfedges, associated vertices, edges, and faces. 
 		This made it easier to track how the mesh should be restructured when the edge is split.
 		Since edge splitting introduces several new mesh elements (a new vertex, multiple edges, halfedges, and faces), clearly identifying each element beforehand helped ensure that the assignments were consistent and easier to verify. This approach significantly reduced the difficulty of debugging and made it easier to confirm that all connectivity relationships were correctly updated.
-
+		</p>
+		
 		<!--<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
