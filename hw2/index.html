@@ -152,7 +152,7 @@
 		When we bring the formula together we get: face_normal * face_area = \( [ u &times; v &divide; ||u &times; v|| ] * [ ||u &times; v|| &divide; 2 ] = ( u &times; v ) &divide; 2 \)
 		I used this formula to compute the vector for each face.
 
-		The steps I used are as follows:
+		<p>The steps I used are as follows:</p>
 		<ol>
 			<li>iterate through the faces incident to the vertex we have</li>
 			<li>for each face, multiply the normal vector (not normalized vector) by its surface area to get the weighted normal: using the formula above</li>
@@ -174,6 +174,30 @@
 		To update the mesh, I reassigned the connectivity of the six halfedges involved in the two triangles. This required updating each halfedge's next, twin, vertex, edge, and face pointers using setNeighbors. 
 		The halfedges around each face were reordered to reflect the new triangle configurations after the flip. I also updated the halfedge pointers for the affected vertices and faces to ensure they reference valid outgoing halfedges in the updated mesh.
 
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw2_before_edge_flips_or_splits.png" width="400px"/>
+				  <figcaption>Teapot BEFORE any edge flips</figcaption>
+				</td>
+			
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw2 section2 part4 edge flip.png" width="400px"/>
+				  <figcaption>Teapot AFTER edge flips</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		While implementing edge flip, I initially attempted to perform the operation without explicitly listing all surrounding halfedges, vertices, and edges, relying instead on following the connectivity structure conceptually from my notes. 
+		Although this approach worked logically on paper, it made debugging difficult because it was harder to trace which specific elements were being modified. To make the implementation easier to reason about, I switched to explicitly naming the six halfedges involved in the two adjacent triangles and the corresponding vertices and faces.
+		During debugging, I encountered an issue where one of the edges would disappear after performing a flip. I attempted to use check_for to inspect the connectivity relationships, but tracking the addresses of each element became tedious. 
+		Since the issue appeared to be related to edge connectivity, I instead reviewed the halfedge reassignment logic and eventually discovered that two halfedges had been mistakenly swapped during the updates (when using setNeighbors).
+		Correcting this mix-up fixed the disappearing edge and resulted in the correct mesh connectivity.
+
 		<h3>Part 5: Edge split</h3>
 		To implement edge splitting, I first collected all mesh elements associated with the edge to be split. Starting from the edge's halfedge, I retrieved the six halfedges that form the two adjacent triangles, along with their corresponding vertices, edges, and faces.
 		I computed the midpoint of the original edge by averaging the positions of its two endpoint vertices. A new vertex was created at this midpoint.
@@ -182,6 +206,43 @@
 		This involved assigning the correct twin, next, edge, vertex, and face pointers. so that each of the four resulting triangles had a consistent halfedge cycle. I also updated the halfedge pointers for the affected vertices, edges, and faces so that they reference valid halfedges in the modified mesh.
 		Finally, the new vertex's halfedge pointer was set to point along the original split edge, as required.
 
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw2_before_edge_flips_or_splits.png" width="400px"/>
+				  <figcaption>Teapot BEFORE any edge splits</figcaption>
+				</td>
+			
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw2_part_5_only_splits.png" width="400px"/>
+				  <figcaption>Teapot AFTER edge splits</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>These other pictures show how edge flip and splits affect the shading in the teapot. This can mostly be seen on the spout and some in the handle.</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw2_part5_edge_flip_and_split.png" width="400px"/>
+				  <figcaption>Teapot WITH edge flip and edge split</figcaption>
+				</td>
+			
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw2_part5_shading looks different.png" width="400px"/>
+				  <figcaption>Teapot shading with edge flips and splits</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		<!--<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
