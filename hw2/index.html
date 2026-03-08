@@ -66,14 +66,18 @@
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
 		De Casteljau's Algorithm uses the divide and conquer method to evaluate Bezier curves. It uses subdivision to separate the curve into multiple sections using the control points as the starting point. 
 		Linear interpolation is used on each pair of control points to compute an intermediate control point on the line connecting the two original control points. The steps I used to implement de Casteljau's algorithm are as follows.
-		For each level/step in the algorithm we: 
-		1. Check the size of the vector: Since linear interpolation requires two points, we need to double check that the vector we have has two or more points to be able to compute the intermediate point.
-		2. Create a new vector object to store the new points: If there are enough points to work with, we will be able to do the calculations, so we need to have a place to store the new values.
-		3. Go through the elements in the vector: Since each computation requires point i and point i+1, we only loop through the vector starting from 0 until the second to last vector.
-			3a. Use the equation for linear interpolation: \( lerp = point<sub>i</sub> * (1-t) + point<sub>i+1</sub> * t \)
-			3b. Store the new point into the vector we created: As we calculate these values, we want to store them in the same object to keep them together
-		4. Return the vector with intermediate control points: Once we have finished the linear interpolation for all pairs of points in the vector, we return the vector that has all the intermediate control points that will be used in the next level/step.
-		These steps are done recursively until there is only one point left, which is the point on the curve.
+		<p>For each level/step in the algorithm we: </p>
+		<ol>
+			<li>Check the size of the vector: Since linear interpolation requires two points, we need to double check that the vector we have has two or more points to be able to compute the intermediate point.</li>
+			<li>Create a new vector object to store the new points: If there are enough points to work with, we will be able to do the calculations, so we need to have a place to store the new values.</li>
+			<li>Go through the elements in the vector: Since each computation requires point i and point i+1, we only loop through the vector starting from 0 until the second to last vector.</li>
+			<ul>
+				<li>Use the equation for linear interpolation: lerp = \( point<sub>i</sub> * (1-t) + point<sub>i+1</sub> * t \)</li>
+				<li>Store the new point into the vector we created: As we calculate these values, we want to store them in the same object to keep them together</li>
+			</ul>
+			<li>Return the vector with intermediate control points: Once we have finished the linear interpolation for all pairs of points in the vector, we return the vector that has all the intermediate control points that will be used in the next level/step.</li>
+			<li>These steps are done recursively until there is only one point left, which is the point on the curve.</li>
+		</ol>
 
 		<p>There are the images displaying each step and some curves with different control points and different parameters.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -148,7 +152,8 @@
 		The weighted normal is derived using the face normal and the face area. Each face has a normal element, however it is the normalized version which is a unit vector. 
 		(To get the unnormalized vector we need to get the cross product of two vectors which we can form using the positions of three vertices of the face: the vertex we are given, and two of its neighboring vertices.) 
 		Once we have the face normal we need the area of the face which for a triangle surface is half of the magnitude of the cross product of the two edge vectors. 
-		When we bring the formula together we get: face_normal * face_area = \( [ u &times; v &divide; ||u &times; v|| ] * [ ||u &times; v|| &divide; 2 ] = ( u &times; v ) &divide; 2 \)
+		When we bring the formula together we get: 
+		<p>face_normal * face_area = \( [ u &times; v &divide; ||u &times; v|| ] * [ ||u &times; v|| &divide; 2 ] = ( u &times; v ) &divide; 2 \) </p>
 		I used this formula to compute the vector for each face.
 
 		<p>The steps I used are as follows:</p>
@@ -184,9 +189,7 @@
 				  <img src="hw2_before_edge_flips_or_splits.png" width="400px"/>
 				  <figcaption>Teapot BEFORE any edge flips</figcaption>
 				</td>
-			
-			  </tr>
-			  <tr>
+
 				<td style="text-align: center;">
 				  <img src="hw2_section2_part4_edge_flip.png" width="400px"/>
 				  <figcaption>Teapot AFTER edge flips</figcaption>
@@ -220,9 +223,7 @@
 				  <img src="hw2_before_edge_flips_or_splits.png" width="400px"/>
 				  <figcaption>Teapot BEFORE any edge splits</figcaption>
 				</td>
-			
-			  </tr>
-			  <tr>
+
 				<td style="text-align: center;">
 				  <img src="hw2_part5_only_splits.png" width="400px"/>
 				  <figcaption>Teapot AFTER edge splits</figcaption>
@@ -239,9 +240,7 @@
 				  <img src="hw2_part5_edge_flip_and_split.png" width="400px"/>
 				  <figcaption>Teapot WITH edge flip and edge split</figcaption>
 				</td>
-			
-			  </tr>
-			  <tr>
+
 				<td style="text-align: center;">
 				  <img src="hw2_part5_shading_looks_different.png" width="400px"/>
 				  <figcaption>Teapot shading with edge flips and splits</figcaption>
