@@ -32,8 +32,8 @@
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage:  <a href="https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/">cal-cs184-student.github.io/hw-webpages-hgonzalez8/</a>
+		Link to GitHub repository:  <a href="https://github.com/cal-cs184-student/hw-webpages-hgonzalez8">https://github.com/cal-cs184-student/hw-webpages-hgonzalez8</a>
 		
 		<figure>
 			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
@@ -48,37 +48,95 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Beginning with ray generation, this step converts a 2D sample on the image plane into a 3D ray in world space using the following steps:
+		<ol>
+			<li>The horizontal and vertical field of views are converted to radians: to be able to work with tangent</li>
+			<li>Each pixel sample is converted from normalized screen coordinates ([0,1]) to camera space coordinates ([-1, 1]): to recenter the coordinate system, origin is in the middle</li>
+			<li>The camera space coordinates are projected onto the sensor plane: where z = -1 in camera space</li>
+			<li>Scale the x and y coordiates by \(tan(FOV divide 2)\): to account for the camera's field of view</li>
+				<ul>Coordinates make the direction vector</ul>
+			<li>Normalize the direction vector</li>
+			<li>Transform the vector into world space and normalize: transform using camera to world matrix</li>
+			<li>Set the near and far clipping planes to limit the valid intersection</li>
+		</ol>
+
+		For pixel sampling, to be able to compute the color of the pixel, multiple random samples are taken within the pixel, and averaged. This gives the Monte Carlo estimate of radiance.
+		For each fixed number of samples, a random offset in the pixel is generated, added to the pixel coordinates, and normalized. A ray is generated for each sample and traced through the scene using the global illumination function. 
+		I add the colors from all the samples and divide by the number of samples to get the final pixel color.
+
+		- explain triangle intersection algorithm
+		<p>
+			I used the Moller Trombore Algorithm for the triangle intersection algorithm which uses barycentric coordinates to find the intersection point with the following steps:
+			<ol>
+				<li>Calcuate the edges from the first corner of the triangle: \(e<sub>1</sub>, e<sub>2</sub>\)</li>
+				<li>Get the offset vector: distance from corner to origin: \(s\)</li>
+				<li>Compute cross products (1) ray direction and \(e<sub>2</sub>\) and (2) offset vector \(s\) and \(e<sub>1</sub>\)</li>
+					<ul>This helps to make a system of equations to solve for intersection</ul>
+				<li>Compute the denominator of the factor which is a dot product between \(s<sub>1</sub> and e<sub>1</sub>\)</li>
+					<ul>Since this is a denominator, it should not be zero or close to zero because then the ray would be parallel or near parallel to the triangle.</ul>
+				<li>Compute the values for t, u, v based on the system of equations in the Moller Trombore Algorithm</li>
+					<ul>t = distance along the ray to intersection point which should be within the valid bounds of the ray</ul>
+					<ul>u, v = barycentric coordinates to determine if the point is in the triangle</ul>
+				<li>If the intersection is valid, the max t value of the ray should be updated because the intersection point is closer</li>
+			</ol>
+		</p>
+
+		some bugs i got were:
+		- ignoring the intersections in the back which is why i needed the abs for the denominator of the factor to make sure i am not dividing by zero or a very small number
+		- 
+
 
 		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="hw3/img_renders/colors.png" width="400px"/>
+				  <figcaption>CBempty</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="hw3/img_renders/banana.png" width="400px"/>
+				  <figcaption>Banana</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="hw3/img_renders/CBempty.png" width="400px"/>
+				  <figcaption>Empty Room</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="hw3/img_renders/CBspheres.png" width="400px"/>
+				  <figcaption>Room with spheres</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 		
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		My BVH is built recursively by grouping primitives into a tree of bounding boxes. First, for a given range of primitives, I compute a bounding box that encloses all of them. This box becomes the bounding box of the current node. I then check how many primitives are in the node. 
+		If the number is less than or equal to max_leaf_size, I make the node a leaf and store pointers to the primitives. This stops the recursion.
+		If the node is not a leaf, I split the primitives into two groups. To do this, I compute the centroid of each primitive's bounding box and build a new bounding box around all of these centroids. I then look at the extent (spread) of this centroid box along the x, y, and z axes.
+		The heuristic I use is to split along the axis with the largest extent. This means I choose the direction in which the primitives are most spread out. The idea is that splitting along this axis will better separate the primitives into two balanced groups and reduce overlap between child nodes.
+		Once the axis is chosen, I split the primitives at the midpoint of that axis (the average of the min and max centroid values). I partition the primitives based on whether their centroid lies to the left or right of this midpoint.
+		If the split fails (i.e., all primitives end up on one side), I fall back to splitting the list in half to avoid infinite recursion.
+		Finally, I recursively build the left and right child nodes using the two partitions.
 
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="hw3/img_renders/cow_rate_without_bvh.png" width="400px"/>
+				  <figcaption>Cow without bvh</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="hw3/img_renders/cow_with_bvh.png" width="400px"/>
+				  <figcaption>cow with bvh</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+<!-- 
 		<h2>Part 3: Direct Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
@@ -100,7 +158,7 @@
 					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
 				</ul>
 			</li>
-		</ul>
+		</ul>-->
 		</div>
 	</body>
 </html>
