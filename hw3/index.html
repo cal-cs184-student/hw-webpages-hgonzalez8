@@ -45,7 +45,12 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, I implemented a basic ray tracer with support for multiple rays per pixel and acceleration using a BVH.
+		First, I wrote ray generation, which turns each pixel into a 3D ray from the camera into the scene. The rays are computed using a pinhole camera model and transformed into world space.
+		Next, I implemented pixel sampling and ray tracing. Each pixel is sampled multiple times with random offsets to reduce aliasing, and the color for the pixel is calculated by averaging the results of all the rays.
+		For primitive intersections, I implemented ray-triangle intersections using the Moller-Trumbore algorithm. This checks whether a ray hits a triangle and calculates the hit point and surface normal for shading.
+		To speed up ray tracing, I built a bounding volume hierarchy (BVH). The BVH groups primitives into a tree of bounding boxes, so rays can quickly skip areas of the scene that don't contain any geometry. I split nodes along the axis where primitives are most spread out, using the midpoint to divide them.
+		Finally, I implemented BVH traversal, which checks rays against the BVH to find intersections efficiently. Leaf nodes are tested against all primitives, while internal nodes recursively check their children, returning the closest intersection if one exists
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		Beginning with ray generation, this step converts a 2D sample on the image plane into a 3D ray in world space using the following steps:
@@ -83,7 +88,7 @@
 
 		some bugs i got were:
 		- ignoring the intersections in the back which is why i needed the abs for the denominator of the factor to make sure i am not dividing by zero or a very small number
-		- 
+
 
 
 		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
@@ -126,11 +131,11 @@
 			  <tr>
 				<td style="text-align: center;">
 				  <img src="img_renders/cow_rate_without_bvh.png" width="400px"/>
-				  <figcaption>Cow without bvh</figcaption>
+				  <figcaption>Cow</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="img_renders/cow_with_bvh.png" width="400px"/>
-				  <figcaption>cow with bvh</figcaption>
+				  <img src="hw3/img_renders/CBluey.png" width="400px"/>
+				  <figcaption>CBluey</figcaption>
 				</td>
 			  </tr>
 			</table>
