@@ -130,16 +130,29 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="img_renders/cow_rate_without_bvh.png" width="400px"/>
+				  <img src="img_renders/cow_with_bvh.png" width="400px"/>
 				  <figcaption>Cow</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="hw3/img_renders/CBluey.png" width="400px"/>
+				  <img src="img_renders/CBluey.png" width="400px"/>
 				  <figcaption>CBluey</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="" width="400px"/>
+				  <figcaption>Without BVH</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="" width="400px"/>
+				  <figcaption>With BVH</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
+
+		The rendering times differred greatly when using BVH and without using BVH. It took less time, speed was greater, and the average number of intersection tests per ray were less whe using BVH.
+		Being able to cut down testing on the number of pixels using the boundary boxes contributed to the speed up. 
 
 <!-- 
 		<h2>Part 3: Direct Illumination</h2>
