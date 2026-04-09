@@ -128,7 +128,32 @@
 		</div>
 
 		<h2>Task 4: Barycentric coordinates</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Barycentric coordinates are a method to determine if a point is inside the triangle using linear algebra to calculate weights for each vertex based on the point's position. 
+		This method uses the right hand rule to help determine if the point is outside the triangle by checking if any of the weight values are negative. 
+		The calculated weights, which have to add up to 1, are also used to compute the color of the pixel that we are sampling. 
+		Since each vertex has a color, the final color of the pixel becomes a combination of all three vertex colors combined using a weighted average. 
+
+		<p>This is a single triangle with one red, one green, and one blue vertex</p>
+		<img src="color_triangle.png" width="400px"/>
+		<figcaption>Smoothly Blended Color Triangle</figcaption>
+
+		While working on this I ran into a floating point error. At first I was checking if the weights were less than 0, however, I had to account for some error in the floating point values so I had to give the weights to have some roon for error. 
+		Before accounting for this, there was a slight while line diagonal in the color circle, but after accounting for error, the color circle was able to be filled as it should. The difference can be seen below:
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="color_circle_with_line.png" width="400px"/>
+				  <figcaption>Color Circle with Slight White Line</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="color_circle.png" width="400px"/>
+				  <figcaption>Correct Color Circle</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
