@@ -28,15 +28,15 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Heidy Gonzalez</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/">https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/">https://cal-cs184-student.github.io/hw-webpages-hgonzalez8/</a>
 
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://github.com/cal-cs184-student/hw-webpages-hgonzalez8">https://github.com/cal-cs184-student/hw-webpages-hgonzalez8</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/hw-webpages-hgonzalez8">https://github.com/cal-cs184-student/hw-webpages-hgonzalez8</a>
 
 		<figure>
 			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
@@ -85,15 +85,15 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="ks_500.png" width="250px"/>
+				  <img src="varying_ks/ks_500.png" width="250px"/>
 				  <figcaption>ks = 500</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="ks_5000.png" width="250px"/>
+				  <img src="varying_ks/ks_5000.png" width="250px"/>
 				  <figcaption>ks = 5000</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="ks_50000.png" width="250px"/>
+				  <img src="varying_ks/ks_50000.png" width="250px"/>
 				  <figcaption>ks = 50000</figcaption>
 				</td>
 			  </tr>
@@ -131,15 +131,15 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="varying_damp/density_15_ks_5000_damp_16.png" width="400px"/>
+				  <img src="varying_damp/density_15_ks_5000_damp_16.png" width="270px"/>
 				  <figcaption>Damping = 0.16%</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="varying_damp/density_15_ks_5000_damp_55.png" width="400px"/>
+				  <img src="varying_damp/density_15_ks_5000_damp_55.png" width="270px"/>
 				  <figcaption>Damping = 0.55%</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="varying_damp/density_15_ks_5000_damp_80.png" width="400px"/>
+				  <img src="varying_damp/density_15_ks_5000_damp_80.png" width="270px"/>
 				  <figcaption>Damping = 0.80%</figcaption>
 				</td>
 			  </tr>
@@ -168,7 +168,28 @@
 			<li>Apply the correction vector to the point mass's last position and also scale it down by friction \( 1 - f \) : this updates the point mass's position at this timestep so it does not collide with the sphere</li>
 		</ol>
 
-		<p>For handling collision with planes I used the components of the plane like ...</p>
+		<p>For handling collision with planes I used the components of the plane like the point and the normal to do the following: </p>
+		<ol>
+			<li>I found the direction and distance from the point on the plane to the current position of the point mass.</li>
+			<li>I use the dot product of that vector and the normal of the plane to find the "vertical" distance from the plane that the point mass is at. The result is checked to see if the point mass collided with the plane.</li>
+				<ul>
+					<li>if the result is positive: the point mass is above the plane.</li>
+					<li>if the result is negative: the point mass is below the plane -- the point mass collided with the plane</li>
+				</ul>
+			<li>
+				If there was a collision, I make a correction vector: the total distance the point mass should travel to get above the plane would be the distance and the surface offset combined since we want the point mass to be a bit above the plane. 
+				We multiply this by the plane vector because we want to go in the direction that the plane is facing. 
+			</li>
+			<li>The correction vector is added to the current point mass position to get it above the plane.</li>
+			<li>A new vector is made from the last position of the point mass to the newly corrected position.</li>
+			<li>Get the "vertical" and "horizontal components of that new vector.</li>
+				<ul>
+					<li>To find the vertical component: get the dot product of that vector and the plane normal vector to get the length and multiply it by the plane normal to get the direction.</li>
+					<li>To find the horizontal component: subtract the vertical vector from the original vector.</li>
+				</ul>
+			<li>Get the final point mass position by adding the last position, the height vector, and add the horizontal vector scaled by friction.</li>
+
+		</ol>
 
 		<h2>Part 4: Handling self-collisions</h2>
 		To handle self-collisions, I used the spacial map that we build to divide the space into 3D box volumes which contain the point masses that are located within that box. 
