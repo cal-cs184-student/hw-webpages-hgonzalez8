@@ -199,6 +199,31 @@
 		This correction vector is added to a running total that sums together all the correction vectors from the point masses that are too close to current point mass.
 		I also keep count of the number of correction vectors that are made since the average of the correction vectors scaled by the number of simulation steps is the amount and direction that the current point mass will move.
 
+		<p>These are the images of the cloth falling and folding on itself:</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+					<img src="self_collision/initial_vertical_fall.png" width="400px"/>
+					<figcaption>Early Fall</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="self_collision/vertical_falling_folds.png" width="400px"/>
+					<figcaption>Initial Collisions</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="self_collision/rolled_folded.png" width="400px"/>
+				  <figcaption>Multiple Collisions</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="self_collision/rolled_with_spread.png" width="400px"/>
+				  <figcaption>More Restful State</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<p>These are the images related to change in density:</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -236,58 +261,81 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
+					<img src="texture_imgs/only_ambient.png" width="400px"/>
 					<figcaption>Only Ambient Component</figcaption>
 				</td>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
+					<img src="texture_imgs/only_diffuse.png" width="400px"/>
 					<figcaption>Only Diffuse Component</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="" width="400px"/>
+				  <img src="texture_imgs/only_specular.png" width="400px"/>
 				  <figcaption>Only Specular Component</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="" width="400px"/>
+				  <img src="texture_imgs/entire_phong_model.png" width="400px"/>
 				  <figcaption>Entire Blinn-Phong Model</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
-		<p>These are images involving Bump Mapping:</p>
+		<p>This is the image of the texture mapping shader using a custom texture.</p>
+		<figure>
+			<img src="texture_imgs/custom_texture.png" alt="custom texture" style="width:70%"/>
+			<figcaption>Custom texture</figcaption>
+		</figure>
+
+
+		<p>These are images involving Bump Mapping. Based on what I can see, the difference between the different resolutions is how smooth the edges are and I see some Moire patterns on the side of the higher resolution image.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
-					<figcaption>Bump Mapping on the Cloth</figcaption>
+					<img src="texture_imgs/bump_16.png" width="400px"/>
+					<figcaption>Bump Mapping, Resolution 16x16</figcaption>
 				</td>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
-					<figcaption>Bump Mapping on the Sphere</figcaption>
+					<img src="texture_imgs/bump_128.png" width="400px"/>
+					<figcaption>Bump Mapping , Resolution 128x128</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
-		<p>These are images involving the Mirror Shader:</p>
+		<p>These are images involving Displacement Mapping:</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
-					<figcaption>Bump Mapping on the Cloth</figcaption>
+					<img src="texture_imgs/displacement_16.png" width="400px"/>
+					<figcaption>Displacement Mapping, Resolution 16x16</figcaption>
 				</td>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
-					<figcaption>Bump Mapping on the Sphere</figcaption>
+					<img src="texture_imgs/displacement_128.png" width="400px"/>
+					<figcaption>Displacement Mapping , Resolution 128x128</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="texture_imgs/displacement_16_on_sphere.png" width="400px"/>
+					<figcaption>Displacement Mapping, Resolution 16x16</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="texture_imgs/displacement_128_on_sphere.png" width="400px"/>
+					<figcaption>Displacement Mapping , Resolution 128x128</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
+
+		<p>This is the image involving the Mirror Shader:</p>
+		<figure>
+			<img src="texture_imgs/mirror_on_cloth_and_sphere.png" alt="Mirror Texture on cloth and sphere" style="width:70%"/>
+			<figcaption>Mirror shader on Cloth and Sphere</figcaption>
+		</figure>
 
 <!--
 		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
