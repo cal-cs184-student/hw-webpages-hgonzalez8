@@ -191,6 +191,32 @@
 
 		</ol>
 
+		<p>These are the images of the cloth at its final rest state on the sphere. As the ks gets higher, the wider the cloth hangs and sticks out around the sphere. There are less creases because the folds become bigger. The images with the lower ks, the cloth is able to be closer and wrapped around the sphere </p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="varying_ks/at_rest_ks_500.png" width="270px"/>
+				  <figcaption>ks = 500</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="varying_ks/at_rest_ks_5000.png" width="270px"/>
+				  <figcaption>ks = 5000 (default)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="varying_ks/at_rest_ks_50000.png" width="270px"/>
+				  <figcaption>ks = 50000</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>This is the image of the cloth lying at rest on the plane.</p>
+		<figure>
+			<img src="texture_imgs/at_rest_on_plane.png" style="width:70%"/>
+			<figcaption>Cloth at rest on the Plane</figcaption>
+		</figure>
+
 		<h2>Part 4: Handling self-collisions</h2>
 		To handle self-collisions, I used the spacial map that we build to divide the space into 3D box volumes which contain the point masses that are located within that box. 
 		Using this map, I get the box that the current point mass we are working with is in, then check each point mass in the same box, and make sure that it is not the same point mass we are comparing it to. 
@@ -225,31 +251,40 @@
 			</table>
 		</div>
 
-		<p>These are the images related to change in density:</p>
+		<p>These are the images related to change in density and ks:</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
-					<figcaption>Density = </figcaption>
+					<img src="varying_density/plane_collision_density_50.png" width="400px"/>
+					<figcaption>Density = 50</figcaption>
 				</td>
 				<td style="text-align: center;">
-					<img src="" width="400px"/>
-					<figcaption>Density = </figcaption>
+					<img src="varying_density/plane_collision_density_100.png" width="400px"/>
+					<figcaption>Density = 100</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="" width="400px"/>
-				  <figcaption>ks = </figcaption>
+				  <img src="varying_ks/plane_collision_ks_50.png" width="400px"/>
+				  <figcaption>ks = 50</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="" width="400px"/>
-				  <figcaption>ks = </figcaption>
+				  <img src="varying_ks/plane_collision_ks_50000.png" width="400px"/>
+				  <figcaption>ks = 50000</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
+
+		<p>
+			I noticed that the higher change in density made more folds in the cloth and it tends to stay concentrated in the spot on the plane that the cloth fell on.
+			The lower the density, the more the cloth would spread out which would result in it having less small folds and more wide spread out folds. 
+			I also noticed that the higher change in ks, the less bumps and folds there would be in the cloth.
+			It is more smooth looking and spreads out more. 
+			The lower the ks, the more crevices from bumps and folds that there is in the cloth.
+			The cloth stays folded over itself a lot longer and has a wrinkled look. 
+		</p>
 
 		<h2>Part 5: Shaders</h2>
 		A shader program is run on the GPU to render computer graphics. It deals with transformations to the lighting, color, and shapes of the scene. Vertex shaders work with the location and geometry of vertices by applying transformations to determine the final position of the vertex. 
