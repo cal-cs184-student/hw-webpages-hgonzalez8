@@ -48,7 +48,17 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		<!--Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.-->
+		This homework involved building a cloth simulation system and rendering it realistically. I modeled the cloth as a grid of point masses connected by springs, which allowed it to move and deform based on physical forces like gravity and tension. 
+
+		I simulated its motion over time using numerical integration, where forces like gravity, spring forces, and damping determine how each point mass moves at every timestep. 
+		I also added collision handling so the cloth can interact with objects like spheres, planes, and even itself. 
+		Collision handling required detecting intersections and applying correction offsets so the cloth doesn't pass through surfaces or collapse into itself. To make self-collision efficient, spatial partitioning was used to avoid checking every pair of points.
+
+		I also explored how different parameters, such as spring stiffness, density, and damping, affect the cloth's behavior and appearance.
+		I implemented shaders to improve the visual appearance of the cloth. This included lighting models like Blinn-Phong for realistic shading, as well as techniques like texture mapping, bump mapping, and displacement mapping to enhance visual detail. 
+		Using these lighting models and texture techniques, the simulated cloth was able to look more detailed and realistic.
+
 
 		<h2>Part 1: Masses and springs</h2>
 		The cloth wireframe has point masses and springs. The constraints that are supported are structural, shearing, and bending constraints.
