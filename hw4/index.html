@@ -88,8 +88,8 @@
 		These are the differences in the cloth behavior that I observed when experimenting with some parameters in the simulation.
 		<ol>
 			<li>Effects of changing ks:</li>
-				<ul>High ks - there was less movement as the cloth fell as well as less drasic folds</ul>
-				<ul>Low ks - there was more movement in the cloth, like swinging, and more folds which were also deeper, so it made them more noticeable.</ul>
+				<ul>High ks - There was less movement as the cloth fell as well as fewer, wider folds. The cloth resists deformation more strongly, since the spring forces are larger. It sticks out more around the sides and forms larger folds. </ul>
+				<ul>Low ks - There was more movement in the cloth, like swinging, and more folds which were also deeper. The springs are weaker, so the cloth deforms more easily. This leads to more motion, deeper folds, and a more wrinkled appearance.</ul>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -111,8 +111,8 @@
 		</div>
 
 			<li>Effects of changing density:</li>
-				<ul>Higher density - when the cloth was hanging, the curve formed in the middle of the top two pinned masses got lower, the curve was deeper.</ul>
-				<ul>Lower density - when going from high to low density, the cloth jumps up a little bit which made the curve on the top become more shallow than before.</ul>
+				<ul>Higher density - When the cloth was hanging, there was a deeper curve between the pinned points. This is because increasing the mass of each point increased the effects of gravity, making the cloth sag more.</ul>
+				<ul>Lower density - When going from high to low density, the cloth jumps up a little bit which made a shallower curve between the pinned points. This reduced the gravitational force, so the cloth appears lighter and less stretched.</ul>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -134,8 +134,8 @@
 		</div>
 
 			<li>Effects of changing damping:</li>
-				<ul>More damping - the cloth fell a lot slower after it was released</ul>
-				<ul>Less damping - the cloth falls to its rest state a lot faster</ul>
+				<ul>More damping - Increasing damping removes more energy from the system over time, which caused the cloth to fall more slowly and settle smoothly.</ul>
+				<ul>Less damping - Decreasing damping preserves more energy, so the cloth moves more quickly and oscillates more before coming to rest. The cloth fell a lot faster.</ul>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -164,44 +164,29 @@
 		</figure>
 
 		<h2>Part 3: Handling collisions with other objects</h2>
-		For handling collisions with spheres I did used components of the sphere that were available like the origin and radius to do the following:
-		<ol>
-			<li>I found the tangent point - the surface intersection point</li>
-				<ul>I created a vector from the sphere origin to the point mass's position to get the direction of the possible extended path to the sphere's surface.</ul>
-				<ul>I get the length of the vector to get the distance between the point mass's position and the sphere's origin.</ul>
-			<li>I checked if the point mass collided with the sphere</li>
-				<ul>To check, I compare the distance with the radius of the sphere : if the distance is less than the radius, the point mass is inside the sphere</ul>
-			<li>If they have collided, I make a correction vector : the distance needs to be more than the radius distance away from the origin, so I calculate how far the point mass is from the sphere's surface.</li>
-				<ul>Using the direction found before, we normalize it to get a unit vector, then scale it by the amount the point mass needs to move.</ul>
-				<ul>This vector is added to the current position of the point mass to move it to where it doesn't collide with the sphere : this gives the new position that the point mass should be at</ul>
-				<ul>I found the vector between the last position of the point mass and the new position to get the amount that the point mass should move from its last position : this is the correction vector</ul>
-			<li>Apply the correction vector to the point mass's last position and also scale it down by friction \( 1 - f \) : this updates the point mass's position at this timestep so it does not collide with the sphere</li>
-		</ol>
+		For handling collisions with spheres, I used the sphere's origin and radius. 
+		First, I compute the vector from the sphere's center to the point mass to determine its direction and distance from the center. 
+		I then check if a collision has occurred by comparing this distance to the radius.
+		<ul>
+			<li>if the distance is less than the radius, the point mass is inside the sphere</li>
+		</ul>
+		If a collision occurs, I compute a correction by normalizing this direction vector and scaling it so the point mass lies exactly on the surface of the sphere. 
+		This gives the corrected position. I then compute a correction vector from the previous position of the point mass to this new position. 
+		I apply this correction to the point mass's last position, scaled by a factor of \( 1 - f \), to account for friction. 
 
-		<p>For handling collision with planes I used the components of the plane like the point and the normal to do the following: </p>
-		<ol>
-			<li>I found the direction and distance from the point on the plane to the current position of the point mass.</li>
-			<li>I use the dot product of that vector and the normal of the plane to find the "vertical" distance from the plane that the point mass is at. The result is checked to see if the point mass collided with the plane.</li>
-				<ul>
-					<li>if the result is positive: the point mass is above the plane.</li>
-					<li>if the result is negative: the point mass is below the plane -- the point mass collided with the plane</li>
-				</ul>
-			<li>
-				If there was a collision, I make a correction vector: the total distance the point mass should travel to get above the plane would be the distance and the surface offset combined since we want the point mass to be a bit above the plane. 
-				We multiply this by the plane vector because we want to go in the direction that the plane is facing. 
-			</li>
-			<li>The correction vector is added to the current point mass position to get it above the plane.</li>
-			<li>A new vector is made from the last position of the point mass to the newly corrected position.</li>
-			<li>Get the "vertical" and "horizontal components of that new vector.</li>
-				<ul>
-					<li>To find the vertical component: get the dot product of that vector and the plane normal vector to get the length and multiply it by the plane normal to get the direction.</li>
-					<li>To find the horizontal component: subtract the vertical vector from the original vector.</li>
-				</ul>
-			<li>Get the final point mass position by adding the last position, the height vector, and add the horizontal vector scaled by friction.</li>
+		<br> 
 
-		</ol>
-
-		<p>These are the images of the cloth at its final rest state on the sphere. As the ks gets higher, the wider the cloth hangs and sticks out around the sphere. There are less creases because the folds become bigger. The images with the lower ks, the cloth is able to be closer and wrapped around the sphere </p>
+		For handling collisions with planes, I used the plane's point and normal vector. 
+		I compute the vector from a point on the plane to the point mass and take the dot product with the plane normal to determine the signed distance from the plane.
+		<ul>
+			<li>If this value is negative, the point mass is below the plane and a collision has occurred.</li>
+		</ul>
+		When a collision is detected, I compute a correction vector that moves the point mass above the plane by a small offset along the normal direction. 
+		I then compute the displacement from the last position to this corrected position and decompose it into normal and tangential components. 
+		The normal component ensures the point mass is above the surface, while the tangential component is scaled by friction to simulate realistic sliding along the plane. 
+		The final position is computed by adding the normal correction and the friction-scaled tangential component to the point mass's last position.
+		
+		<p>These are the images of the cloth at its final rest state on the sphere. As the ks gets higher, the wider the cloth hangs and sticks out around the sphere. There are fewer creases because the folds become larger. With lower ks, the cloth wraps more tightly around the sphere. </p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
@@ -228,8 +213,8 @@
 		</figure>
 
 		<h2>Part 4: Handling self-collisions</h2>
-		To handle self-collisions, I used the spacial map that we build to divide the space into 3D box volumes which contain the point masses that are located within that box. 
-		Using this map, I get the box that the current point mass we are working with is in, then check each point mass in the same box, and make sure that it is not the same point mass we are comparing it to. 
+		To handle self-collisions, I used the spatial map that we build to divide the space into 3D box volumes which contain the point masses that are located within that box. 
+		Using this map, I get the box containing the current point mass, then check each point mass in the same box, and make sure that it is not the same point mass we are comparing it to. 
 		I check the distance between two point masses to check that it is at least twice the thickness of the cloth. 
 		If it is not, I make a correction vector that moves the current point mass in the direction away from the other point mass by the amount that is needed for it to be at least twice the thickness away. 
 		This correction vector is added to a running total that sums together all the correction vectors from the point masses that are too close to current point mass.
@@ -297,9 +282,19 @@
 		</p>
 
 		<h2>Part 5: Shaders</h2>
-		A shader program is run on the GPU to render computer graphics. It deals with transformations to the lighting, color, and shapes of the scene. Vertex shaders work with the location and geometry of vertices by applying transformations to determine the final position of the vertex. 
-		The attributes of the vertices are passed as input to the fragment shader. The fragment shader works with the attributes to determine the texture and how the light affects the color that the pixel should be. It outputs the final color that the pixel should be. 
-		The Blinn-Phong shading is a combination of ambient, diffuse, and specular shading to create a more realistic looking scene. It is able to simulate any highlights there may be based on the material and lighting, creates a general brightness to the scene, and is able to get the final color based on the surface color and lighting.
+		
+		A shader program is run on the GPU to render computer graphics. It determines how objects appear by controlling lighting, color, and surface detail. 
+		Vertex shaders work with the location and geometry of vertices by applying transformations to determine the final position of each vertex in screen space. 
+		The attributes of the vertices are then passed as input to the fragment shader. The fragment shader uses these attributes to determine the final color of each pixel based on lighting and material properties.
+		The Blinn-Phong shading model is a combination of ambient, diffuse, and specular shading to create a more realistic looking scene. 
+		The ambient component provides general illumination across the object, the diffuse component depends on the angle between the light and the surface normal, and the specular component creates highlights that simulate shininess. 
+		Together, these components determine the final color of the surface.
+		For texture techniques, texture mapping applies an image to the surface to add color detail. 
+		Bump mapping modifies the surface normals to simulate small surface details without changing the actual geometry, while displacement mapping actually changes the positions of vertices, creating real geometric variation on the surface. 
+		Because of this, displacement mapping produces more realistic depth and silhouettes compared to bump mapping, especially at higher mesh resolutions.
+		Based on what I can see, the difference between the different resolutions is that higher resolution meshes produce smoother and more detailed results, while lower resolution meshes appear coarser. 
+		I also noticed some Moiré patterns on the sphere at higher resolutions due to fine repeating details. 
+		The difference between bump mapping and displacement mapping is that displacement mapping creates actual geometric changes, while bump mapping only affects the lighting appearance.
 
 		<p>These are images involving components of the Blinn-Phong model:</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -385,11 +380,6 @@
 			  </tr>
 			</table>
 		</div>
-
-		<p>
-			Based on what I can see, the difference between the different resolutions is that the higher resolution images have edges that are smoother and I see some Moire patterns on the sides of the sphere of the higher resolution image.
-			The difference between bump mapping and displacement mapping is that there are vertices that are protruding out of the sphere and cloth 
-		</p>
 
 		<p>This is the image involving the Mirror Shader:</p>
 		<figure>
