@@ -88,8 +88,10 @@
 		These are the differences in the cloth behavior that I observed when experimenting with some parameters in the simulation.
 		<ol>
 			<li>Effects of changing ks:</li>
-				<ul>High ks - There was less movement as the cloth fell as well as fewer, wider folds. The cloth resists deformation more strongly, since the spring forces are larger. It sticks out more around the sides and forms larger folds. </ul>
-				<ul>Low ks - There was more movement in the cloth, like swinging, and more folds which were also deeper. The springs are weaker, so the cloth deforms more easily. This leads to more motion, deeper folds, and a more wrinkled appearance.</ul>
+				<ul>
+					<li>High ks - There was less movement as the cloth fell as well as fewer, wider folds. The cloth resists deformation more strongly, since the spring forces are larger. It sticks out more around the sides and forms larger folds. </li>
+					<li>Low ks - There was more movement in the cloth, like swinging, and more folds which were also deeper. The springs are weaker, so the cloth deforms more easily. This leads to more motion, deeper folds, and a more wrinkled appearance.</li>	
+				</ul>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -111,8 +113,10 @@
 		</div>
 
 			<li>Effects of changing density:</li>
-				<ul>Higher density - When the cloth was hanging, there was a deeper curve between the pinned points. This is because increasing the mass of each point increased the effects of gravity, making the cloth sag more.</ul>
-				<ul>Lower density - When going from high to low density, the cloth jumps up a little bit which made a shallower curve between the pinned points. This reduced the gravitational force, so the cloth appears lighter and less stretched.</ul>
+				<ul>
+					<li>Higher density - When the cloth was hanging, there was a deeper curve between the pinned points. This is because increasing the mass of each point increased the effects of gravity, making the cloth sag more.</li>
+					<li>Lower density - When going from high to low density, the cloth jumps up a little bit which made a shallower curve between the pinned points. This reduced the gravitational force, so the cloth appears lighter and less stretched.</li>
+				</ul>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -134,8 +138,10 @@
 		</div>
 
 			<li>Effects of changing damping:</li>
-				<ul>More damping - Increasing damping removes more energy from the system over time, which caused the cloth to fall more slowly and settle smoothly.</ul>
-				<ul>Less damping - Decreasing damping preserves more energy, so the cloth moves more quickly and oscillates more before coming to rest. The cloth fell a lot faster.</ul>
+				<ul>
+					<li>More damping - Increasing damping removes more energy from the system over time, which caused the cloth to fall more slowly and settle smoothly.</li>
+					<li>Less damping - Decreasing damping preserves more energy, so the cloth moves more quickly and oscillates more before coming to rest. The cloth fell a lot faster.</li>
+				</ul>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -368,8 +374,12 @@
 					<figcaption>Displacement Mapping , Resolution 128x128</figcaption>
 				</td>
 			  </tr>
-			  <br>
-			  <p>These images are comparing bump and displacement mapping: </p>
+			</table>
+		</div>
+
+		<p>These images are comparing Bump and Displacement Mapping:</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
 					<img src="texture_imgs/bump_128_sphere.png" width="400px"/>
@@ -380,8 +390,6 @@
 					<figcaption>Displacement Mapping</figcaption>
 				</td>
 			  </tr>
-			</table>
-		</div>
 
 		<p>This is the image involving the Mirror Shader:</p>
 		<figure>
